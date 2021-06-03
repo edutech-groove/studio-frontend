@@ -59,29 +59,25 @@ export default class CourseChecklistPage extends React.Component {
     );
 
     return (
-      <div className="container">
+      <div className="checklists-wrapper">
         {this.getAriaLiveRegion(
           isCourseLaunchChecklistLoading,
           isCourseBestPracticeChecklistLoading,
         )}
-        <div className="row">
-          <div className="col">
-            <WrappedCourseChecklist
-              dataHeading={<WrappedMessage message={messages.launchChecklistLabel} />}
-              dataList={launchChecklist.data}
-              data={this.props.courseLaunchData}
-              idPrefix="launchChecklist"
-              isLoading={isCourseLaunchChecklistLoading}
-            />
-          </div>
+        <div className="checklist-wrapper">
+          <WrappedCourseChecklist
+            dataHeading={<WrappedMessage message={messages.launchChecklistLabel} />}
+            dataList={launchChecklist.data}
+            data={this.props.courseLaunchData}
+            idPrefix="launchChecklist"
+            isLoading={isCourseLaunchChecklistLoading}
+          />
         </div>
         {
           this.props.studioDetails.enable_quality ?
             (
-              <div className="row ">
-                <div className="col">
-                  {courseBestPracticesChecklist}
-                </div>
+              <div className="checklist-wrapper">
+                {courseBestPracticesChecklist}
               </div>
             )
             : null
