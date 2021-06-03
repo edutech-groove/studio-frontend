@@ -60,7 +60,7 @@ class CourseChecklist extends React.Component {
   getCompletionCountID = () => (`${this.props.idPrefix.split(/\s/).join('-')}-completion-count`);
 
   getHeading = () => (
-    <h3 aria-describedby={this.getCompletionCountID()} className={classNames('font-weight-normal', 'font-extra-large')}>
+    <h3 aria-describedby={this.getCompletionCountID()}>
       {this.props.dataHeading}
     </h3>
   )
@@ -77,11 +77,10 @@ class CourseChecklist extends React.Component {
         >
           {displayText =>
             (<div
-              className="font-large"
+              className="completion-count"
               id={this.getCompletionCountID()}
-            >
-              {displayText}
-            </div>)
+              dangerouslySetInnerHTML={{ __html: displayText }}
+            ></div>)
           }
         </WrappedMessage>
       );
@@ -93,27 +92,15 @@ class CourseChecklist extends React.Component {
 
     return (
       <WrappedMessage message={message}>
-        {displayText => (
-          <div className="text-center">
-            <Icon
-              className={[classNames(
-                FontAwesomeStyles.fa,
-                FontAwesomeStyles['fa-2x'],
-                this.getCompletionIconClassNames(isCompleted)),
-              ]}
-              id={`icon-${checkID}`}
-              screenReaderText={displayText}
-            />
-          </div>
+        {() => (
+            isCompleted ? 
+            <svg id={`icon-${checkID}`} className="completed-icon" width="32" height="32" dangerouslySetInnerHTML={{__html: '<use xlink:href="#checkmark"></use>' }} /> :
+            <div id={`icon-${checkID}`} className="incomplete-icon"></div>
         )
         }
       </WrappedMessage>
     );
   }
-
-  getCompletionIconClassNames = isCompleted => (
-    isCompleted ? ['fa-check-circle', 'text-success'] : ['fa-circle-thin', styles['checklist-icon-incomplete']]
-  );
 
   getChecklistItemColorClassName = isCompleted => (
     isCompleted ? styles['checklist-item-complete'] : styles['checklist-item-incomplete']
@@ -142,9 +129,9 @@ class CourseChecklist extends React.Component {
   }
 
   getUpdateLink = checkID => (
-    <div className="col-1">
+    <div className="update-link">
       <Hyperlink
-        className={classNames('px-3', styles.btn, styles['btn-primary'], styles['checklist-item-link'])}
+        className={classNames(styles.btn, styles['btn-primary'], styles['checklist-item-link'])}
         content={<WrappedMessage message={messages.updateLinkLabel} />}
         destination={this.getUpdateLinkDestination(checkID)}
         onClick={() => this.onCheckUpdateHyperlinkClick(checkID)}
@@ -177,19 +164,19 @@ class CourseChecklist extends React.Component {
       return (
         <div
           className={classNames(
-            'bg-white border my-2',
-            { 'pt-4': shouldShowCommentSection, 'py-4': !shouldShowCommentSection },
+            'checklist-item-wrapper',
+            { 'show-comment': shouldShowCommentSection},
             this.getChecklistItemColorClassName(isCompleted),
             styles['checklist-item'])
           }
           id={`checklist-item-${check.id}`}
           key={check.id}
         >
-          <div className="align-items-center no-gutters row">
-            <div className="col-1">
+          <div className="checklist-item">
+            <div className="icon">
               {this.getCompletionIcon(check.id)}
             </div>
-            <div className="col">
+            <div className="content">
               {this.getShortDescription(check.id)}
               {this.getLongDescription(check.id)}
             </div>
@@ -358,21 +345,15 @@ class CourseChecklist extends React.Component {
 
   render() {
     return (
-      <div className="container mb-5">
-        <div className="row no-gutters py-2">
-          <div className="col">
-            {this.getHeading()}
-          </div>
+      <div>
+        <div className="title">
+          {this.getHeading()}
         </div>
-        <div className="row no-gutters">
-          <div className="col">
-            {this.getCompletionCount()}
-          </div>
+        <div className="subtitle">
+          {this.getCompletionCount()}
         </div>
-        <div className="row no-gutters">
-          <div className="col">
-            {this.getBody()}
-          </div>
+        <div className="body">
+          {this.getBody()}
         </div>
       </div>
     );
