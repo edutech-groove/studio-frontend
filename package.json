@@ -1,8 +1,8 @@
 {
-  "name": "@edx/studio-frontend",
+  "name": "edutech-studio-frontend",
   "version": "0.0.0-development",
   "description": "The frontend for the Open edX platform",
-  "repository": "edx/studio-frontend",
+  "repository": "edutech-groove/studio-frontend",
   "scripts": {
     "build": "NODE_ENV=production BABEL_ENV=production $(npm bin)/webpack --config=config/webpack.prod.config.js",
     "i18n_extract": "BABEL_ENV=i18n $(npm bin)/babel src --quiet > /dev/null",
