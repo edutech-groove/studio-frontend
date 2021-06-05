@@ -1,6 +1,6 @@
 {
   "name": "edutech-studio-frontend",
-  "version": "0.0.0-development",
+  "version": "v1.16.14.patch1.0",
   "description": "The frontend for the Open edX platform",
   "repository": "edutech-groove/studio-frontend",
   "scripts": {
