@@ -1,6 +1,6 @@
 {
   "name": "edutech-studio-frontend",
-  "version": "v1.16.14.patch1.0",
+  "version": "v1.16.14.patch1.1",
   "description": "The frontend for the Open edX platform",
   "repository": "edutech-groove/studio-frontend",
   "scripts": {
@@ -9,6 +9,7 @@
     "lint": "eslint --ext .js --ext .jsx .",
     "lint_fix": "eslint --fix --ext .js --ext .jsx .",
     "prepare": "npm run build",
+    "prepublish": "npm run build",
     "start": "NODE_ENV=development BABEL_ENV=development $(npm bin)/webpack-dev-server --config=config/webpack.dev.config.js --hot --inline --progress",
     "test": "jest --runInBand --coverage"
   },
