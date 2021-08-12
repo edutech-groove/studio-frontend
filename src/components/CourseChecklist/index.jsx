@@ -188,20 +188,6 @@ class CourseChecklist extends React.Component {
     })
   );
 
-  getCommentSectionIcon = () => (
-    <div className="text-center">
-      <Icon
-        className={[classNames(
-          FontAwesomeStyles.fa,
-          FontAwesomeStyles['fa-lg'],
-          FontAwesomeStyles['fa-comment'],
-          styles['comment-icon'],
-        )]
-        }
-      />
-    </div>
-  );
-
   getGradingPolicyCommentSection = () => (
     this.getComment(
       <WrappedMessage
@@ -268,11 +254,11 @@ class CourseChecklist extends React.Component {
   }
 
   getComment = comment => (
-    <div className={classNames('align-items-center no-gutters border-top mt-4 row')} data-identifier="comment">
-      <div className="col-1">
-        {this.getCommentSectionIcon()}
+    <div className={classNames('comment')} data-identifier="comment">
+      <div className="icon">
+        <svg className="comment-icon" width="39.312" height="30" dangerouslySetInnerHTML={{__html: '<use xlink:href="#comment-outline-icon"></use>' }} />
       </div>
-      <div className="col my-4 font-small">
+      <div className="message">
         {comment}
       </div>
     </div>
