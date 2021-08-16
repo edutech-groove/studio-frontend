@@ -3,7 +3,7 @@ import { defineMessages } from 'react-intl';
 const messages = defineMessages({
   welcomeMessageShortDescription: {
     id: 'welcomeMessageShortDescription',
-    defaultMessage: 'Add a Welcome Message',
+    defaultMessage: 'Add a welcome message',
     description: 'Label for a section that describes a welcome message for a course',
   },
   welcomeMessageLongDescription: {
@@ -13,7 +13,7 @@ const messages = defineMessages({
   },
   gradingPolicyShortDescription: {
     id: 'gradingPolicyShortDescription',
-    defaultMessage: 'Create Your Course Grading Policy',
+    defaultMessage: 'Create your course grading Policy',
     description: 'Label for a section that describes a grading policy for a course',
   },
   gradingPolicyLongDescription: {
@@ -28,7 +28,7 @@ const messages = defineMessages({
   },
   certificateShortDescription: {
     id: 'certificateShortDescription',
-    defaultMessage: 'Enable Your Certificate',
+    defaultMessage: 'Enable your certificate',
     description: 'Label for a section that describes a certificate for completing a course',
   },
   certificateLongDescription: {
@@ -38,7 +38,7 @@ const messages = defineMessages({
   },
   courseDatesShortDescription: {
     id: 'courseDatesShortDescription',
-    defaultMessage: 'Set Important Course Dates',
+    defaultMessage: 'Set important course dates',
     description: 'Label for a section that describes a certificate for completing a course',
   },
   courseDatesLongDescription: {
@@ -48,7 +48,7 @@ const messages = defineMessages({
   },
   assignmentDeadlinesShortDescription: {
     id: 'assignmentDeadlinesShortDescription',
-    defaultMessage: 'Validate Assignment Deadlines',
+    defaultMessage: 'Validate assignment deadlines',
     description: 'Label for a section that describes course assignment deadlines',
   },
   assignmentDeadlinesLongDescription: {
@@ -63,7 +63,7 @@ const messages = defineMessages({
   },
   videoDurationShortDescription: {
     id: 'videoDurationShortDescription',
-    defaultMessage: 'Check Video Duration',
+    defaultMessage: 'Check video duration',
     description: 'Label for a section that describes video durations',
   },
   videoDurationLongDescription: {
@@ -73,7 +73,7 @@ const messages = defineMessages({
   },
   mobileFriendlyVideoShortDescription: {
     id: 'mobileFriendlyVideoShortDescription',
-    defaultMessage: 'Create Mobile-Friendly Video',
+    defaultMessage: 'Create mobile-friendly video',
     description: 'Label for a section that describes mobile friendly videos',
   },
   mobileFriendlyVideoLongDescription: {
@@ -83,7 +83,7 @@ const messages = defineMessages({
   },
   diverseSequencesShortDescription: {
     id: 'diverseSequencesShortDescription',
-    defaultMessage: 'Build Diverse Learning Sequences',
+    defaultMessage: 'Build diverse learning sequences',
     description: 'Label for a section that describes diverse sequences of educational content',
   },
   diverseSequencesLongDescription: {
@@ -93,7 +93,7 @@ const messages = defineMessages({
   },
   weeklyHighlightsShortDescription: {
     id: 'weeklyHighlightsShortDescription',
-    defaultMessage: 'Set Weekly Highlights',
+    defaultMessage: 'Set weekly highlights',
     description: 'Label for a section that describes weekly highlights',
   },
   weeklyHighlightsLongDescription: {
@@ -103,7 +103,7 @@ const messages = defineMessages({
   },
   unitDepthShortDescription: {
     id: 'unitDepthShortDescription',
-    defaultMessage: 'Manage Unit Depth',
+    defaultMessage: 'Manage unit depth',
     description: 'Label for a section that describes course unit depth',
   },
   unitDepthLongDescription: {
