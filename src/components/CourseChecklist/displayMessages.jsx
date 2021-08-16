@@ -13,7 +13,7 @@ const messages = defineMessages({
   },
   gradingPolicyShortDescription: {
     id: 'gradingPolicyShortDescription',
-    defaultMessage: 'Create your course grading Policy',
+    defaultMessage: 'Create your course grading policy',
     description: 'Label for a section that describes a grading policy for a course',
   },
   gradingPolicyLongDescription: {
