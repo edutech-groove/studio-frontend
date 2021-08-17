@@ -10,8 +10,6 @@ export default class AssetsSearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = { value: props.assetsSearch.search };
-
-    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -20,12 +18,13 @@ export default class AssetsSearch extends React.Component {
     }
   }
 
-  submit = () => {
+  submit = (e) => {
+    e.preventDefault();
     this.props.updateSearch(this.state.value, this.props.courseDetails);
   }
 
-  handleChange(value) {
-    this.setState({ value });
+  handleChange = (e) => {
+    this.setState({ value: e.target.value });
   }
 
   handleClear = () => {
@@ -36,19 +35,12 @@ export default class AssetsSearch extends React.Component {
 
   render() {
     return (
-      <div className="form-group form-inline justify-content-end">
-        <SearchField
-          onSubmit={this.submit}
-          onChange={this.handleChange}
-          onClear={this.handleClear}
-          inputLabel={<WrappedMessage message={messages.assetsSearchInputLabel} />}
-          screenReaderText={{
-            clearButton: <WrappedMessage message={messages.assetsClearSearchButtonLabel} />,
-            searchButton: <WrappedMessage message={messages.assetsSearchSubmitLabel} />,
-          }}
-          value={this.state.value}
-        />
-      </div>
+      <form className="form-search" onSubmit={this.submit}>
+        <input className="search-input" type="text" placeholder="Search" onChange={this.handleChange} value={this.state.value}/>
+        <button className="search-button" type="submit">
+          <svg width="18" height="18" dangerouslySetInnerHTML={{__html: '<use xlink:href="#magnifying-glass"/>' }}/>
+        </button>
+      </form>
     );
   }
 }

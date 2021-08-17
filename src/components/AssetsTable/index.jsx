@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Button, Modal, Variant } from '@edx/paragon';
+import { Table, Modal, Button, Variant } from '@edx/paragon';
 import classNames from 'classnames';
 
 import FontAwesomeStyles from 'font-awesome/css/font-awesome.min.css';
@@ -28,45 +28,38 @@ export default class AssetsTable extends React.Component {
         key: 'image_preview',
         columnSortable: false,
         hideHeader: true,
-        width: 'col-2',
       },
       display_name: {
         label: (<WrappedMessage message={messages.assetsTableNameLabel} />),
         key: 'display_name',
         columnSortable: true,
-        width: 'col-3',
       },
       content_type: {
         label: (<WrappedMessage message={messages.assetsTableTypeLable} />),
         key: 'content_type',
         columnSortable: true,
-        width: 'col-2',
       },
       date_added: {
         label: (<WrappedMessage message={messages.assetsTableDateLabel} />),
         key: 'date_added',
         columnSortable: true,
-        width: 'col-2',
       },
       urls: {
         label: (<WrappedMessage message={messages.assetsTableCopyLabel} />),
         key: 'urls',
         columnSortable: false,
-        width: 'col',
       },
       delete_asset: {
         label: (<WrappedMessage message={messages.assetsTableDeleteLabel} />),
         key: 'delete_asset',
         columnSortable: false,
         hideHeader: true,
-        width: 'col',
       },
       lock_asset: {
         label: (<WrappedMessage message={messages.assetsTableLockLabel} />),
         key: 'lock_asset',
         columnSortable: false,
         hideHeader: true,
-        width: 'col',
       },
     };
 
@@ -133,26 +126,29 @@ export default class AssetsTable extends React.Component {
   }
 
   getLockButton(asset) {
-    const classes = [FontAwesomeStyles.fa, 'btn-outline-primary'];
+    const classes = ['lock-button'];
+    let icon;
     let lockStateMessage;
     if (asset.locked) {
       lockStateMessage = messages.assetsTableUnlockedObject;
-      classes.push(FontAwesomeStyles['fa-lock']);
+      classes.push('lock');
+      icon = <svg width="12.25" height="14" dangerouslySetInnerHTML={{__html: '<use xlink:href="#lock-icon"/>' }}/>;
     } else {
       lockStateMessage = messages.assetsTableUnlockedObject;
-      classes.push(FontAwesomeStyles['fa-unlock']);
+      classes.push('unlock');
+      icon = <svg width="15.75" height="14" dangerouslySetInnerHTML={{__html: '<use xlink:href="#unlock-icon"/>' }}/>;
     }
     return (
       <WrappedMessage message={lockStateMessage} values={{ object: asset.display_name }}>
         { displayText =>
-          (<Button
-            className={classes}
-            label={''}
+          (<button 
+            className={classes.join(' ')}
             data-asset-id={asset.id}
             aria-label={displayText}
             onClick={this.onLockClick}
-            data-identifier="asset-lock-button"
-          />)
+          >
+            {icon}
+          </button>)
         }
       </WrappedMessage>
     );
@@ -168,7 +164,7 @@ export default class AssetsTable extends React.Component {
       >
         { displayText =>
           (<Button
-            className={['btn-outline-primary']}
+            className={['btn-outline-primary', 'asset-locking-button']}
             label={(<span className={classNames(...spinnerClasses)} />)}
             aria-label={displayText}
             data-identifier="asset-locking-button"
@@ -202,14 +198,16 @@ export default class AssetsTable extends React.Component {
 
   getCopyUrlButton(assetDisplayName, url, labelMessage, classes = []) {
     const buttonLabel = (
-      <span>
-        <span className={classNames(FontAwesomeStyles.fa, FontAwesomeStyles['fa-files-o'], styles['copy-icon'])} aria-hidden />
+      <span className="copy-url-button">
+        <svg width="12.091" height="14" dangerouslySetInnerHTML={{__html: '<use xlink:href="#copy"/>' }}/>
         <WrappedMessage message={labelMessage} />
       </span>
     );
 
     const onCopyLabel = (
-      <WrappedMessage message={messages.assetsTableCopiedStatus} data-identifier={`asset-copy-${labelMessage}-url-button-copy-label`} />
+      <span className="copied-url-button">
+        <WrappedMessage message={messages.assetsTableCopiedStatus} data-identifier={`asset-copy-${labelMessage}-url-button-copy-label`} />
+      </span>
     );
 
     return (
@@ -283,15 +281,17 @@ export default class AssetsTable extends React.Component {
           values={{ displayName: currentAsset.display_name }}
         >
           { displayText =>
-            (<Button
+            (<button
               key={currentAsset.id}
-              className={[FontAwesomeStyles.fa, FontAwesomeStyles['fa-trash'], 'btn-outline-primary']}
+              className="delete-button"
               label={''}
               aria-label={displayText}
               onClick={() => { this.onDeleteClick(index); }}
               inputRef={ref => this.getAssetDeleteButtonRef(ref, currentAsset)}
               data-identifier="asset-delete-button"
-            />)
+            >
+            <svg width="13.6" height="15" dangerouslySetInnerHTML={{__html: '<use xlink:href="#trash2"/>' }}/>
+          </button>)
           }
         </WrappedMessage>
       );
@@ -376,7 +376,6 @@ export default class AssetsTable extends React.Component {
               data-identifier="asset-confirm-delete-button"
             />,
           ]}
-          variant={{ status: Variant.status.WARNING }}
           parentSelector={`#${modalWrapperID}`}
         />
       </div>
