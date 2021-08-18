@@ -134,7 +134,7 @@ export default class AssetsPage extends React.Component {
 
   renderNoAssetsPage = () => (
     <div className="content">
-      <div className="records no-assests">
+      <div className="records no-assets">
         {this.renderNoAssetsBody()}
       </div>
       <div className="sidebar">
