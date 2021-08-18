@@ -32,8 +32,8 @@ class Pagination extends React.Component {
               paginationLabel={paginationLabel}
               pageCount={totalPages}
               buttonLabels={{
-                previous: this.props.intl.formatMessage(messages.paginationPrevious),
-                next: this.props.intl.formatMessage(messages.paginationNext),
+                previous: <svg width="5" height="9" dangerouslySetInnerHTML={{__html: '<use xlink:href="#paging-prev-icon"/>' }}/>,
+                next: <svg width="5" height="9" dangerouslySetInnerHTML={{__html: '<use xlink:href="#paging-next-icon"/>' }}/>,
                 page: this.props.intl.formatMessage(messages.paginationPage),
                 currentPage: this.props.intl.formatMessage(messages.paginationCurrentPage),
                 pageOfCount: this.props.intl.formatMessage(messages.paginationOf),

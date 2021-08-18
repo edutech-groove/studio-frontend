@@ -8,7 +8,7 @@ import styles from './AssetsFilters.scss';
 import messages from './displayMessages';
 
 const AssetsFilters = ({ assetsFilters, updateFilter, courseDetails }) => (
-  <div role="group" aria-labelledby="filter-label">
+  <div className="filter-label" role="group" aria-labelledby="filter-label">
     <WrappedMessage message={messages.assetsFiltersSectionLabel}>
       {
         displayText =>

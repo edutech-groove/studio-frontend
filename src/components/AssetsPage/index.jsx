@@ -91,25 +91,27 @@ export default class AssetsPage extends React.Component {
 
   renderAssetsPage = () => (
     <React.Fragment>
-      <div className="row">
-        <div className="col-10 offset-2">
-          <div className="row">
-            <div className="col-md-8">
-              <div aria-hidden>
-                <WrappedAssetsResultsCount />
-              </div>
-            </div>
-            <div className="col-md-4 text-right">
+      <div className="content">
+        <div className="records" id={TABLE_CONTENTS_ID} tabIndex="-1">
+          <div className="header">
+            <div className="result-count">
+              <WrappedAssetsResultsCount />
               {hasSearchOrFilterApplied(this.props.filtersMetadata.assetTypes,
                 this.props.searchMetadata.search) &&
-                <WrappedAssetsClearFiltersButton className="p-3" />
+                <WrappedAssetsClearFiltersButton />
               }
             </div>
+            {(this.state.pageType === pageTypes.NORMAL ||
+              this.state.pageType === pageTypes.NO_RESULTS) && (
+              <WrappedAssetsSearch />
+            )}
           </div>
+          <WrappedAssetsTable
+            deleteButtonRefs={(button, asset) => { this.deleteButtonRefs[asset.id] = button; }}
+          />
+          <WrappedPagination />
         </div>
-      </div>
-      <div className="row">
-        <div className="col">
+        <div className="sidebar">
           <a
             className={classNames('sr-only', 'sr-only-focusable', styles['skip-link'])}
             href={`#${TABLE_CONTENTS_ID}`}
@@ -122,18 +124,6 @@ export default class AssetsPage extends React.Component {
           </div>
           {this.renderAssetsFilters()}
         </div>
-        <div className="col-10" id={TABLE_CONTENTS_ID} tabIndex="-1">
-          <div className="row">
-            <WrappedAssetsTable
-              deleteButtonRefs={(button, asset) => { this.deleteButtonRefs[asset.id] = button; }}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-10 offset-2">
-          <WrappedPagination />
-        </div>
       </div>
     </React.Fragment>
   );
@@ -143,12 +133,12 @@ export default class AssetsPage extends React.Component {
   );
 
   renderNoAssetsPage = () => (
-    <div className="row">
-      <div className="col">
-        {this.renderAssetsDropZone()}
-      </div>
-      <div className="col-10">
+    <div className="content">
+      <div className="records no-assets">
         {this.renderNoAssetsBody()}
+      </div>
+      <div className="sidebar">
+        {this.renderAssetsDropZone()}
       </div>
     </div>
   );
@@ -161,20 +151,22 @@ export default class AssetsPage extends React.Component {
   );
 
   renderNoResultsPage = () => (
-    <div className="row">
-      <div className="col">
+    <div className="content">
+      <div className="records no-results">
+        {this.renderNoResultsBody()}
+      </div>
+      <div className="sidebar">
         {this.renderAssetsDropZone()}
         {this.renderAssetsFilters()}
-      </div>
-      <div className="col-10">
-        {this.renderNoResultsBody()}
       </div>
     </div>
   );
 
   renderSkeletonPage = () => (
-    <div className="row">
-      <div className="col-2">
+    <div className="content">
+      <div className="records">
+      </div>
+      <div className="sidebar">
         {this.renderAssetsDropZone()}
         {this.renderAssetsFilters()}
       </div>
@@ -192,24 +184,12 @@ export default class AssetsPage extends React.Component {
         >
           <WrappedAssetsResultsCount />
         </div>
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <WrappedAssetsStatusAlert
-                statusAlertRef={(input) => { this.statusAlertRef = input; }}
-                onDeleteStatusAlertClose={this.onDeleteStatusAlertClose}
-                onClose={this.onStatusAlertClose}
-              />
-            </div>
-          </div>
-          {(this.state.pageType === pageTypes.NORMAL ||
-            this.state.pageType === pageTypes.NO_RESULTS) && (
-            <div className="row">
-              <div className="col-12 p-0">
-                <WrappedAssetsSearch />
-              </div>
-            </div>
-          )}
+        <div>
+          <WrappedAssetsStatusAlert
+            statusAlertRef={(input) => { this.statusAlertRef = input; }}
+            onDeleteStatusAlertClose={this.onDeleteStatusAlertClose}
+            onClose={this.onStatusAlertClose}
+          />
           {this.getPage(this.state.pageType)}
         </div>
       </React.Fragment>
