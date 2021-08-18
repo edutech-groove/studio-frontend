@@ -280,19 +280,15 @@ export default class AssetsTable extends React.Component {
           message={messages.assetsTableDeleteObject}
           values={{ displayName: currentAsset.display_name }}
         >
-          { displayText =>
-            (<button
-              key={currentAsset.id}
-              className="delete-button"
-              label={''}
-              aria-label={displayText}
-              onClick={() => { this.onDeleteClick(index); }}
-              inputRef={ref => this.getAssetDeleteButtonRef(ref, currentAsset)}
-              data-identifier="asset-delete-button"
-            >
-            <svg width="13.6" height="15" dangerouslySetInnerHTML={{__html: '<use xlink:href="#trash2"/>' }}/>
-          </button>)
-          }
+          { displayText => (<Button
+          key={currentAsset.id}
+          className={['delete-button']}
+          label={<svg width="13.6" height="15" dangerouslySetInnerHTML={{__html: '<use xlink:href="#trash2"/>' }}/>}
+          aria-label={displayText}
+          onClick={() => { this.onDeleteClick(index); }}
+          inputRef={ref => this.getAssetDeleteButtonRef(ref, currentAsset)}
+          data-identifier="asset-delete-button"
+        />)}
         </WrappedMessage>
       );
 
