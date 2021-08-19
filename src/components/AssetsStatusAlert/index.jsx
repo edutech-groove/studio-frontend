@@ -139,7 +139,6 @@ export default class AssetsStatusAlert extends React.Component {
         alertType,
       },
     });
-    this.statusAlertRef.focus();
   }
 
   closeDeleteStatus = () => {
@@ -170,16 +169,25 @@ export default class AssetsStatusAlert extends React.Component {
     }
 
     return (
-      <StatusAlert
-        alertType={statusAlertFields.alertType}
-        dialog={statusAlertFields.alertDialog}
-        open={statusAlertOpen}
-        onClose={onClose}
-        ref={(input) => {
-          this.statusAlertRef = input;
-          statusAlertRef(input);
-        }}
-      />
+        statusAlertOpen ? 
+        <div className={`alert alert-${statusAlertFields.alertType}`} role="alert" >
+          <button aria-label="Close" className="btn close" type="button" onClick={onClose}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <span className="icon icon-alert">
+            {
+              statusAlertFields.alertType==='success' ?
+              <svg width="14.235" height="10.237" dangerouslySetInnerHTML={{__html: '<use xlink:href="#check-icon"/>' }}/> :
+              statusAlertFields.alertType==='danger' ?
+              <svg width="512" height="512" dangerouslySetInnerHTML={{__html: '<use xlink:href="#ban-icon"/>' }}/> :
+              statusAlertFields.alertType==='info' ?
+              <svg width="32" height="32" dangerouslySetInnerHTML={{__html: '<use xlink:href="#user-icon"/>' }}/> : ""
+            }
+          </span>
+          <div className="message-content">Error notification unde omnis iste natus error sit voluptatem accusantium laudantium.</div>
+        </div>
+        : ""
+      
     );
   }
 }
