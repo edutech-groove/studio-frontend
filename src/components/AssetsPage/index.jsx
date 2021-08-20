@@ -38,12 +38,35 @@ export default class AssetsPage extends React.Component {
     if (this.props.assetsList.length === 0) {
       this.props.getAssets({}, this.props.courseDetails);
     }
+    window.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState(state => ({
       pageType: getPageType(nextProps, state.pageType),
     }));
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+  
+  handleScroll = () => {
+    const records = document.querySelector('.records');
+    const sidebar = document.querySelector('.sidebar-content');
+    if (records && sidebar) {
+      const recordsTop = records.getBoundingClientRect().top;
+      const headerHeight = 66;
+
+      if (sidebar.clientHeight < records.clientHeight) {
+
+        if (recordsTop <= headerHeight + 30) {
+          sidebar.classList.add('fixed');
+        } else {
+          sidebar.classList.remove('fixed');
+        }
+      }
+    }
   }
 
   onDeleteStatusAlertClose = () => {
@@ -93,6 +116,12 @@ export default class AssetsPage extends React.Component {
     <React.Fragment>
       <div className="content">
         <div className="records" id={TABLE_CONTENTS_ID} tabIndex="-1">
+          <WrappedAssetsStatusAlert
+            statusAlertRef={(input) => { this.statusAlertRef = input; }}
+            onDeleteStatusAlertClose={this.onDeleteStatusAlertClose}
+            onClose={this.onStatusAlertClose}
+          />
+          
           <div className="header">
             <div className="result-count">
               <WrappedAssetsResultsCount />
@@ -112,17 +141,19 @@ export default class AssetsPage extends React.Component {
           <WrappedPagination />
         </div>
         <div className="sidebar">
-          <a
-            className={classNames('sr-only', 'sr-only-focusable', styles['skip-link'])}
-            href={`#${TABLE_CONTENTS_ID}`}
-          >
-            <WrappedMessage message={messages.assetsPageSkipLink} />
-          </a>
-          {this.renderAssetsDropZone()}
-          <div className="page-header">
-            <WrappedAssetsImagePreviewFilter />
+          <div className="sidebar-content">
+            <a
+              className={classNames('sr-only', 'sr-only-focusable', styles['skip-link'])}
+              href={`#${TABLE_CONTENTS_ID}`}
+            >
+              <WrappedMessage message={messages.assetsPageSkipLink} />
+            </a>
+            {this.renderAssetsDropZone()}
+            <div className="page-header">
+              <WrappedAssetsImagePreviewFilter />
+            </div>
+            {this.renderAssetsFilters()}
           </div>
-          {this.renderAssetsFilters()}
         </div>
       </div>
     </React.Fragment>
@@ -138,7 +169,9 @@ export default class AssetsPage extends React.Component {
         {this.renderNoAssetsBody()}
       </div>
       <div className="sidebar">
-        {this.renderAssetsDropZone()}
+        <div className="sidebar-content">
+          {this.renderAssetsDropZone()}
+        </div>
       </div>
     </div>
   );
@@ -156,8 +189,10 @@ export default class AssetsPage extends React.Component {
         {this.renderNoResultsBody()}
       </div>
       <div className="sidebar">
-        {this.renderAssetsDropZone()}
-        {this.renderAssetsFilters()}
+        <div className="sidebar-content">
+          {this.renderAssetsDropZone()}
+          {this.renderAssetsFilters()}
+        </div>
       </div>
     </div>
   );
@@ -167,8 +202,10 @@ export default class AssetsPage extends React.Component {
       <div className="records">
       </div>
       <div className="sidebar">
-        {this.renderAssetsDropZone()}
-        {this.renderAssetsFilters()}
+        <div className="sidebar-content">
+          {this.renderAssetsDropZone()}
+          {this.renderAssetsFilters()}
+        </div>
       </div>
     </div>
   );
@@ -185,11 +222,6 @@ export default class AssetsPage extends React.Component {
           <WrappedAssetsResultsCount />
         </div>
         <div>
-          <WrappedAssetsStatusAlert
-            statusAlertRef={(input) => { this.statusAlertRef = input; }}
-            onDeleteStatusAlertClose={this.onDeleteStatusAlertClose}
-            onClose={this.onStatusAlertClose}
-          />
           {this.getPage(this.state.pageType)}
         </div>
       </React.Fragment>
