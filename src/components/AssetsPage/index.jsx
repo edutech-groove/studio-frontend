@@ -36,7 +36,7 @@ export default class AssetsPage extends React.Component {
 
   componentDidMount() {
     if (this.props.assetsList.length === 0) {
-      this.props.getAssets({}, this.props.courseDetails);
+      this.props.getAssets({pageSize: 10}, this.props.courseDetails);
     }
     window.addEventListener('scroll', this.handleScroll);
   }
