@@ -65,7 +65,11 @@ export default class AssetsPage extends React.Component {
         } else {
           sidebar.classList.remove('fixed');
         }
+      } else {
+        sidebar.classList.remove('fixed');
       }
+    } else {
+      sidebar.classList.remove('fixed');
     }
   }
 
