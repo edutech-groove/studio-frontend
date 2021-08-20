@@ -421,7 +421,7 @@ export default class AssetsTable extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <div className={`table-wrapper ${this.props.isImagePreviewEnabled ? 'has-image-preview' : ''}`}>
         <Table
           caption={this.getTableCaption()}
           className={['table-responsive']}
@@ -440,7 +440,7 @@ export default class AssetsTable extends React.Component {
               : ''
           }
         </span>
-      </React.Fragment>
+      </div>
     );
   }
 }
