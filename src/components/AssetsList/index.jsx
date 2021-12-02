@@ -73,20 +73,23 @@ export default class AssetsList extends React.Component {
   }
 
   getAssetsListHeader = () => (
-    <div className={classNames(styles['list-header'], 'row')}>
-      <span className="col-6 offset-3" data-identifier="asset-file-name" id="name-header"><WrappedMessage message={messages.assetsListNameLabel} /></span>
-      <span className="col-3" data-identifier="asset-date-added" id="date-added-header"><WrappedMessage message={messages.assetsListDateLabel} /></span>
-    </div>
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th data-identifier="asset-file-name" id="name-header"><WrappedMessage message={messages.assetsListNameLabel} /></th>
+        <th data-identifier="asset-date-added" id="date-added-header"><WrappedMessage message={messages.assetsListDateLabel} /></th>
+      </tr>
+    </thead>
   )
 
   getAssetListItem = (asset, index) => {
     const isSelected = this.props.selectedAsset.id === asset.id;
 
     return (
-      <li
+      <tr
         // prevent clicking on list item from triggering parent's focus
         onMouseDown={(e) => { e.preventDefault(); this.onAssetClick(asset, index); }}
-        className={classNames('list-group-item list-group-item-action', { active: isSelected })}
         id={`asset-list-option-${index}`}
         aria-selected={isSelected}
         role="option"
@@ -94,36 +97,34 @@ export default class AssetsList extends React.Component {
         tabIndex="-1"
         aria-labelledby={`name-header asset-name-${index} date-added-header asset-date-${index}`}
       >
-        <div className="row">
-          {this.getThumbnailElement(asset.thumbnail)}
-          {this.getDisplayNameElement(asset.display_name, index)}
-          {this.getDateAddedElement(asset.date_added, index)}
-        </div>
-      </li>
+        <td>
+          <input type="checkbox" checked={isSelected? 'checked' : ''} readOnly={true}/>
+          <span></span>
+        </td>
+        {this.getThumbnailElement(asset.thumbnail)}
+        {this.getDisplayNameElement(asset.display_name, index)}
+        {this.getDateAddedElement(asset.date_added, index)}
+      </tr>
     );
   }
 
   getDateAddedElement = (dateAdded, index) => (
-    <span id={`asset-date-${index}`} className="col-3" data-identifier="asset-date-added">{dateAdded}</span>
+    <td id={`asset-date-${index}`} data-identifier="asset-date-added">{dateAdded}</td>
   );
 
   getDisplayNameElement = (displayName, index) => (
-    <span id={`asset-name-${index}`} className="col-6" data-identifier="asset-file-name">{displayName}</span>
+    <td id={`asset-name-${index}`} data-identifier="asset-file-name">{displayName}</td>
   );
 
   getImageThumbnail(thumbnail) {
     const baseUrl = this.props.courseDetails.base_url || '';
 
     return (
-      <div className={styles['assets-list-image-preview-container']}>
-        {
-          thumbnail ?
-            <img className={styles['assets-list-image-preview-image']} src={`${baseUrl}${thumbnail}`} alt="" data-identifier="asset-image-thumbnail" /> :
-            <WrappedMessage message={messages.assetsListNoPreview} >
-              {displayText => <span className={classNames('text-center')} data-identifier="asset-image-thumbnail">{displayText}</span>}
-            </WrappedMessage>
-        }
-      </div>
+      thumbnail ?
+        <img src={`${baseUrl}${thumbnail}`} alt="" data-identifier="asset-image-thumbnail" onError={(e) => window.onImgError(e.target)}/> :
+        <WrappedMessage message={messages.assetsListNoPreview} >
+          {displayText => <span className={classNames('text-center')} data-identifier="asset-image-thumbnail">{displayText}</span>}
+        </WrappedMessage>
     );
   }
 
@@ -131,7 +132,7 @@ export default class AssetsList extends React.Component {
     asset => asset.id === selectedAsset.id));
 
   getThumbnailElement = thumbnail => (
-    <span aria-hidden className="col">{this.getImageThumbnail(thumbnail)}</span>
+    <td aria-hidden>{this.getImageThumbnail(thumbnail)}</td>
   );
 
   handleKeyDown = (e) => {
@@ -176,17 +177,12 @@ export default class AssetsList extends React.Component {
 
     return (
       <React.Fragment>
-        {this.getAssetsListHeader()}
-        <ol
-          aria-activedescendant={this.state.selectedAssetIndex > -1 ? `asset-list-option-${this.state.selectedAssetIndex}` : null}
-          className="list-group"
-          onFocus={this.onListBoxFocus}
-          onKeyDown={this.handleKeyDown}
-          role="listbox"
-          tabIndex="0"
-        >
-          {assetsListItems}
-        </ol>
+        <table>
+          {this.getAssetsListHeader()}
+          <tbody>
+            {assetsListItems}
+          </tbody>
+        </table>
       </React.Fragment>
     );
   };
