@@ -363,7 +363,6 @@ export default class EditImageModal extends React.Component {
 
   getImageDescriptionInput = () => (
     <Fieldset
-      legend={<WrappedMessage message={messages.editImageModalImageDescriptionLegend} />}
       id={imageDescriptionFieldsetID}
       invalidMessage={<WrappedMessage message={messages.editImageModalFormValidImageDescription} />}
       isValid={this.state.isImageDescriptionValid}
@@ -372,6 +371,7 @@ export default class EditImageModal extends React.Component {
       }}
       variantIconDescription={<WrappedMessage message={messages.editImageModalFormError} />}
     >
+      <WrappedMessage message={messages.editImageModalImageDescriptionLegend} tagName="h3"/>
       <InputText
         name="imageDescription"
         label={
@@ -442,7 +442,6 @@ export default class EditImageModal extends React.Component {
 
   getImageDimensionsInput = () => (
     <Fieldset
-      legend={<WrappedMessage message={messages.editImageModalDimensionsLegend} />}
       id={imageDimensionsFieldsetID}
       invalidMessage={<WrappedMessage message={messages.editImageModalFormValidImageDimensions} />}
       isValid={this.state.areImageDimensionsValid}
@@ -451,39 +450,31 @@ export default class EditImageModal extends React.Component {
       }}
       variantIconDescription={<WrappedMessage message={messages.editImageModalFormError} />}
     >
-      <div className="form-row">
-        <div className="col">
-          <InputText
-            name="imageWidth"
-            label={
-              <WrappedMessage
-                message={messages.editImageModalImageWidthLabel}
-              />
-            }
-            id={imageWidthID}
-            type="number"
-            value={'width' in this.state.imageDimensions ? this.state.imageDimensions.width : ''}
-            onBlur={this.onImageDimensionBlur('width')}
+      <WrappedMessage message={messages.editImageModalDimensionsLegend} tagName="h3"/>
+      <InputText
+        name="imageWidth"
+        label={
+          <WrappedMessage
+            message={messages.editImageModalImageWidthLabel}
           />
-        </div>
-        <div className="col-1 my-auto image-dimensions-x">
-          <Icon className={['fa', 'fa-times']} />
-        </div>
-        <div className="col">
-          <InputText
-            name={imageHeightID}
-            label={
-              <WrappedMessage
-                message={messages.editImageModalImageHeightLabel}
-              />
-            }
-            id="imageHeight"
-            type="number"
-            value={'height' in this.state.imageDimensions ? this.state.imageDimensions.height : ''}
-            onBlur={this.onImageDimensionBlur('height')}
+        }
+        id={imageWidthID}
+        type="number"
+        value={'width' in this.state.imageDimensions ? this.state.imageDimensions.width : ''}
+        onBlur={this.onImageDimensionBlur('width')}
+      />
+      <InputText
+        name={imageHeightID}
+        label={
+          <WrappedMessage
+            message={messages.editImageModalImageHeightLabel}
           />
-        </div>
-      </div>
+        }
+        id="imageHeight"
+        type="number"
+        value={'height' in this.state.imageDimensions ? this.state.imageDimensions.height : ''}
+        onBlur={this.onImageDimensionBlur('height')}
+      />
       <CheckBox
         id="lockProportions"
         name="lockProportions"
@@ -508,7 +499,7 @@ export default class EditImageModal extends React.Component {
       className={classNames(styles['image-preview-image'], { invisible: !this.state.isImageLoaded })}
       src={this.getImageAssetSource()}
       onLoad={this.onImageLoad}
-      onError={this.onImageError}
+      onError={(e) => {window.onImgError(e.target); this.onImageError;}}
       ref={this.setImageRef}
     />
   );
@@ -518,21 +509,13 @@ export default class EditImageModal extends React.Component {
     modal open, when image source is empty string
   */
   getImagePreviewPlaceholder = () => (
-    <div className={styles['image-preview-placeholder']}>
-      <WrappedMessage message={messages.editImageModalImagePreviewText} >
-        {displayText =>
-          (<span className={classNames({ invisible: this.state.isImageLoaded })}>
-            {displayText}
-          </span>)}
-      </WrappedMessage>
-      {this.state.imageSource && this.getImage()}
-    </div>
+      this.state.imageSource && this.getImage()
   );
 
   getImagePreview = () => (
     // image preview is decorative
-    <div aria-hidden>
-      <WrappedMessage message={messages.editImageModalImagePreviewText} />
+    <div aria-hidden className="image-preview">
+      <WrappedMessage message={messages.editImageModalImagePreviewText} tagName="h3"/>
       <div className={styles['image-preview-container']}>
         {this.getImagePreviewPlaceholder()}
       </div>
@@ -657,53 +640,34 @@ export default class EditImageModal extends React.Component {
 
   getImageSelectionModalBody = () => (
     <React.Fragment>
-      <div className="row">
-        <div className="col">
-          {this.getStatusAlert()}
-        </div>
-      </div>
-      <div className="row mb-5">
-        <div className="col">
-          <WrappedAssetsDropZone
-            maxFileCount={1}
-            maxFileSizeMB={10}
-            acceptedFileTypes={'image/*'}
-            compactStyle
-            buttonRef={this.setDropZoneButtonRef}
-          />
-        </div>
-      </div>
-      <div className="row no-gutters">
-        <div className="col">
-          <WrappedMessage message={messages.editImageModalInsertHeader} tagName="h3" />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-6 order-2">
-          {(this.state.assetsPageType === pageTypes.NORMAL ||
-            this.state.assetsPageType === pageTypes.NO_RESULTS) && (
-            <WrappedAssetsSearch />
-          )}
-        </div>
-        <div className="col-6 order-1">
-          {this.state.assetsPageType === pageTypes.NORMAL && (
-            <div aria-hidden>
-              <WrappedAssetsResultsCount />
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          {this.getImageSelectionModalBodyAssetsList(this.state.assetsPageType)}
-        </div>
-      </div>
-      {this.state.assetsPageType === pageTypes.NORMAL && (
-        <div className="row mt-3 no-gutters">
-          <div className="col">
-            <WrappedPagination />
+      {this.getStatusAlert()}
+      <WrappedAssetsDropZone
+        maxFileCount={1}
+        maxFileSizeMB={10}
+        acceptedFileTypes={'image/*'}
+        compactStyle
+        buttonRef={this.setDropZoneButtonRef}
+      />
+      <WrappedMessage message={messages.editImageModalImagePreviewText} >
+        {displayText =>
+          (<h3 className={classNames('insert-header')}>
+            {displayText}
+          </h3>)}
+      </WrappedMessage>
+      <div className="header">
+        {this.state.assetsPageType === pageTypes.NORMAL && (
+          <div aria-hidden>
+            <WrappedAssetsResultsCount />
           </div>
-        </div>
+        )}
+        {(this.state.assetsPageType === pageTypes.NORMAL ||
+          this.state.assetsPageType === pageTypes.NO_RESULTS) && (
+          <WrappedAssetsSearch />
+        )}
+      </div>
+      {this.getImageSelectionModalBodyAssetsList(this.state.assetsPageType)}
+      {this.state.assetsPageType === pageTypes.NORMAL && (
+        <WrappedPagination />
       )}
     </React.Fragment>
   );
@@ -711,19 +675,15 @@ export default class EditImageModal extends React.Component {
   getImageSettingsModalBody = () => (
     <React.Fragment>
       {this.getStatusAlert()}
-      <div className="row">
+      <div className="nav">
         {this.state.shouldShowPreviousButton && this.getPreviousPageButton()}
       </div>
-      <div className="row">
-        <div className="col-sm-4">
-          {this.getImagePreview()}
-        </div>
-        <div className="col">
-          <form ref={this.setImageFormRef}>
-            {this.getImageDescriptionInput()}
-            {this.getImageDimensionsInput()}
-          </form>
-        </div>
+      <div className="content">
+        {this.getImagePreview()}
+        <form ref={this.setImageFormRef} className="form">
+          {this.getImageDescriptionInput()}
+          {this.getImageDimensionsInput()}
+        </form>
       </div>
     </React.Fragment>
   );

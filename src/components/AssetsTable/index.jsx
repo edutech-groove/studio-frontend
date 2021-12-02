@@ -109,10 +109,6 @@ export default class AssetsTable extends React.Component {
     });
   }
 
-  onError = (e) => {
-    window.onImgError(e.target);
-  }
-
   getImageThumbnail(thumbnail) {
     const baseUrl = this.props.courseDetails.base_url || '';
     if (thumbnail) {
@@ -124,7 +120,7 @@ export default class AssetsTable extends React.Component {
     }
     return (
       <WrappedMessage message={messages.assetsTableNoPreview} >
-        { displayText => <img className="placeholder" src="" alt={displayText} data-identifier="asset-image-thumbnail" onError={this.onError}/> }
+        { displayText => <img className="placeholder" src="" alt={displayText} data-identifier="asset-image-thumbnail" onError={(e) => window.onImgError(e.target)}/> }
       </WrappedMessage>
     );
   }
