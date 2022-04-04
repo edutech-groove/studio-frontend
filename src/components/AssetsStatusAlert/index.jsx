@@ -184,7 +184,7 @@ export default class AssetsStatusAlert extends React.Component {
               <svg width="32" height="32" dangerouslySetInnerHTML={{__html: '<use xlink:href="#user-icon"/>' }}/> : ""
             }
           </span>
-          <div className="message-content">Error notification unde omnis iste natus error sit voluptatem accusantium laudantium.</div>
+          <div className="message-content">{statusAlertFields.alertDialog}</div>
         </div>
         : ""
       
